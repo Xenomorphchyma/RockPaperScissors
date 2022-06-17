@@ -1,9 +1,9 @@
 import random
 from enum import IntEnum
 
-settings = "y"
-
-y = 1
+settings = "normal"
+hard_settings = 0
+answer_user = 0
 
 class Action(IntEnum):
     Rock = 0
@@ -19,9 +19,9 @@ victories = {
 
 
 def get_user_selection():
-    choices = [f"{action.name}[{action.value}]" for action in Action]
-    choices_str = ", ".join(choices)
-    selection = int(input(f"Вы выбираете ({choices_str}): "))
+    # choices = [f"{action.name}[{action.value}]" for action in Action]
+    # choices_str = ", ".join(choices)
+    selection = answer_user
     action = Action(selection)
     return action
 
@@ -33,11 +33,12 @@ def get_computer_selection():
 
 
 def determine_winner(user_action, computer_action):
-    if settings == "y":
+    if settings == "hard":
         computer_action = user_action + 1
         if computer_action == 3:
             computer_action = 0
-        y = computer_action
+        hard_settings = computer_action
+    normal_settings = computer_action
     action = Action(computer_action)
     computer_action = action
     defeats = victories[user_action]
@@ -47,4 +48,7 @@ def determine_winner(user_action, computer_action):
         print(f"{user_action.name} бьет {computer_action.name}! Вы победили!")
     else:
         print(f"{computer_action.name} бьет {user_action.name}! Вы проиграли. :C")
-    return y
+    if settings == 'hard':
+        return hard_settings
+    else:
+        return normal_settings
